@@ -27,5 +27,5 @@ def plot(well_data):
         )
     )
 
-    return (map_ + wells).to_json()
+    return (map_ + wells)
 
