@@ -9,6 +9,12 @@ $(VENV): requirements.txt
 	python3 -m venv $@
 	source $@/bin/activate && pip install -r $<
 
+requirements.txt: requirements.in
+	rm -rf $(VENV)
+	python3 -m venv $(VENV)
+	pip install -r $<
+	pip freeze > $@
+
 .PHONY: run
 run: $(VENV)
 	streamlit run app/app.py
