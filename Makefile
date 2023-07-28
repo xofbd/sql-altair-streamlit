@@ -15,6 +15,10 @@ $(VENV): poetry.lock
 run: $(VENV)
 	source config && $(VENV_RUN) streamlit run app/app.py
 
+.PHONY: lint
+lint: $(VENV)
+	$(VENV_RUN) flake8 app
+
 .PHONY: clean
 clean:
 	rm -rf $(VENV)
