@@ -1,26 +1,20 @@
 SHELL := /bin/bash
-VENV := venv
+VENV := .venv
+VENV_RUN := poetry run
 
 .PHONY: all
 all: clean run 
 
-$(VENV): requirements.txt
-	rm -rf $@
-	python3 -m venv $@
-	source $@/bin/activate && pip install -r $<
+poetry.lock: pyproject.toml
+	poetry lock
 
-requirements.txt: requirements.in
-	rm -rf $(VENV)
-	python3 -m venv $(VENV)
-	pip install -r $<
-	pip freeze > $@
+$(VENV): poetry.lock
+	poetry install
 
 .PHONY: run
 run: $(VENV)
-	streamlit run app/app.py
+	source config && $(VENV_RUN) streamlit run app/app.py
 
 .PHONY: clean
 clean:
 	rm -rf $(VENV)
-
-
